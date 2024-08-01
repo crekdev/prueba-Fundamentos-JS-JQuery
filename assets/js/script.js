@@ -19,8 +19,6 @@ $(document).ready(function () {
     }
   });
 
-
-
   function consultaAPI(eleccionUsuario) {
     //Llamar API para consulta por id
     const apiKey = "8e375befdf5bf9850f1f6527a4e0e553";
@@ -137,6 +135,5 @@ $(document).ready(function () {
       }]
     };
     $("#chartContainer").CanvasJSChart(options);
-
   }
 })
