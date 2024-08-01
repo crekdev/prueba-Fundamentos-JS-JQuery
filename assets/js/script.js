@@ -74,12 +74,25 @@ $(document).ready(function () {
   //Función crea chart
   function createChart(response) {
 
+    let stats = [];
+    let verificadorNostats;
+
     for (const property in response.powerstats) {
       //Se valida si alguna variable es "null" se convierta a 0 para no romper gráfico
       if (response.powerstats[property] == "null") {
         response.powerstats[property] = 0;
       }
+      stats.push(response.powerstats[property]);
     }
+    //Encuentra si existe algún elemento 0 en el arreglo stats
+    const even = (stat) => stat > 0;
+    verificadorNostats = stats.some(even);
+
+    //Se valida que si todas las variables son "0" se muestre alerta no tiene stats
+    if (verificadorNostats == false) {
+      alert("Héroe no posee Estadisticas de poder");
+    }
+
 
     //Se declaran variables eje y
     let inteligencia = response.powerstats.intelligence
@@ -88,12 +101,6 @@ $(document).ready(function () {
     let durabilidad = response.powerstats.durability
     let poder = response.powerstats.power
     let combate = response.powerstats.combat
-
-    //Se valida que si todas las variables son "null" se muestre alerta
-    if (inteligencia == "null" && fuerza == "null" && velocidad == "null" && durabilidad == "null" && poder == "null" && combate == "null") {
-      alert("Héroe no posee Estadisticas de poder");
-    }
-
 
     //Se crea gráfico
     let options = {
