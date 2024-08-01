@@ -84,7 +84,7 @@ $(document).ready(function () {
       }
       stats.push(response.powerstats[property]);
     }
-    //Encuentra si existe algún elemento 0 en el arreglo stats
+    //Encuentra si existe algún elemento mayor a 0 en el arreglo stats
     const even = (stat) => stat > 0;
     verificadorNostats = stats.some(even);
 
