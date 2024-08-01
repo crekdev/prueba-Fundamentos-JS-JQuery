@@ -55,7 +55,7 @@ $(document).ready(function () {
     <div class="card mb-3" style="max-width: 540px;">
       <div class="row g-0">
         <div class="col-md-4">
-          <img src="${response.image.url}" class="img-fluid rounded-start" alt="...">
+          <img src="${response.image.url}" class="img-fluid rounded-start" alt="Imagen de Héroe">
         </div>
       <div class="col-md-8">
         <div class="card-body">
@@ -76,38 +76,45 @@ $(document).ready(function () {
   //Función crea chart
   function createChart(response) {
 
+    //Se declaran variables eje y
     let inteligencia = response.powerstats.intelligence
+    let fuerza = response.powerstats.strength
+    let velocidad = response.powerstats.speed
+    let durabilidad = response.powerstats.durability
+    let poder = response.powerstats.power
+    let combate = response.powerstats.combat
+
+    //Se valida que si todas las variables son "null" se muestre alerta
+    if (inteligencia == "null" && fuerza == "null" &&  velocidad == "null" && durabilidad == "null" && poder == "null" && combate == "null") {
+      alert("Héroe no posee Estadisticas de poder");
+    }
+    
+    //Se valida si alguna variable es "null" se convierta a 0 para no romper gráfico
     if (inteligencia == "null") {
       inteligencia = 0
     }
 
-    let fuerza = response.powerstats.strength
     if (fuerza == "null") {
       fuerza = 0
     }
 
-    let velocidad = response.powerstats.speed
     if (velocidad == "null") {
       velocidad = 0
     }
 
-    let durabilidad = response.powerstats.durability
     if (durabilidad == "null") {
       durabilidad = 0
     }
 
-    let poder = response.powerstats.power
     if (poder == "null") {
       poder = 0
     }
 
-
-    let combate = response.powerstats.combat
     if (combate == "null") {
       combate = 0
     }
 
-
+    //Se crea gráfico
     let options = {
       title: {
         text: "Estadisticas de poder para " + response.name
@@ -130,5 +137,6 @@ $(document).ready(function () {
       }]
     };
     $("#chartContainer").CanvasJSChart(options);
+
   }
 })
