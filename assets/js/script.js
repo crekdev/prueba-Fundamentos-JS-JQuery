@@ -11,8 +11,8 @@ $(document).ready(function () {
     let numeroValido = numberValidator.test($("input[type=text]").val());
 
     //Valida si el número ingresado es un número y es mayor a 0
-    if (!numeroValido || $("input[type=text]").val() == 0) {
-      alert("No es un número válido, debe ser mayor a 0")
+    if (!numeroValido || $("input[type=text]").val() <= 0 || $("input[type=text]").val() >= 732) {
+      alert("No es un número válido, debe ser mayor a 0 y menor a 732")
     } else {
       eleccionUsuario = Number($("input[type=text]").val());
       consultaAPI(eleccionUsuario);
@@ -74,6 +74,13 @@ $(document).ready(function () {
   //Función crea chart
   function createChart(response) {
 
+    for (const property in response.powerstats) {
+      //Se valida si alguna variable es "null" se convierta a 0 para no romper gráfico
+      if (response.powerstats[property] == "null") {
+        response.powerstats[property] = 0;
+      }
+    }
+
     //Se declaran variables eje y
     let inteligencia = response.powerstats.intelligence
     let fuerza = response.powerstats.strength
@@ -83,34 +90,10 @@ $(document).ready(function () {
     let combate = response.powerstats.combat
 
     //Se valida que si todas las variables son "null" se muestre alerta
-    if (inteligencia == "null" && fuerza == "null" &&  velocidad == "null" && durabilidad == "null" && poder == "null" && combate == "null") {
+    if (inteligencia == "null" && fuerza == "null" && velocidad == "null" && durabilidad == "null" && poder == "null" && combate == "null") {
       alert("Héroe no posee Estadisticas de poder");
     }
-    
-    //Se valida si alguna variable es "null" se convierta a 0 para no romper gráfico
-    if (inteligencia == "null") {
-      inteligencia = 0
-    }
 
-    if (fuerza == "null") {
-      fuerza = 0
-    }
-
-    if (velocidad == "null") {
-      velocidad = 0
-    }
-
-    if (durabilidad == "null") {
-      durabilidad = 0
-    }
-
-    if (poder == "null") {
-      poder = 0
-    }
-
-    if (combate == "null") {
-      combate = 0
-    }
 
     //Se crea gráfico
     let options = {
