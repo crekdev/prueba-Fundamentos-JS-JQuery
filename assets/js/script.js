@@ -1,24 +1,6 @@
 
 $(document).ready(function () {
 
-  //Escuchar evento click en button
-  $("button[type=submit]").on("click", function (event) {
-    event.preventDefault();
-
-    // Capturamos datos usuario y validamos que sea un número
-    let eleccionUsuario;
-    const numberValidator = /\d+/;
-    let numeroValido = numberValidator.test($("input[type=text]").val());
-
-    //Valida si el número ingresado es un número y es mayor a 0
-    if (!numeroValido || $("input[type=text]").val() <= 0 || $("input[type=text]").val() >= 732) {
-      alert("No es un número válido, debe ser mayor a 0 y menor a 732")
-    } else {
-      eleccionUsuario = Number($("input[type=text]").val());
-      consultaAPI(eleccionUsuario);
-    }
-  });
-
   function consultaAPI(eleccionUsuario) {
     //Llamar API para consulta por id
     const apiKey = "8e375befdf5bf9850f1f6527a4e0e553";
@@ -58,12 +40,15 @@ $(document).ready(function () {
       <div class="col-md-8">
         <div class="card-body">
           <h5 class="card-title">Nombre: ${response.name}</h5>
-          <p class="card-text">Genero: ${response.appearance.gender}</p>
+          <hr>
+          <p class="card-text">Genero: ${response.appearance.gender}</p>  
+          <p class="card-text">Primera Aparición: ${response.biography["first-appearance"]}</p>
           <p class="card-text">Alias: ${response.biography.aliases}</p>
           <p class="card-text">Altura: ${response.appearance.height}</p>
           <p class="card-text">Peso: ${response.appearance.weight}</p>
           <p class="card-text">Ocupación: ${response.work.occupation}</p>
-          <p class="card-text">Personajes relacionados: ${response.connections.relatives}</p>
+          <small class="card-text"><strong>Personajes relacionados:</strong> ${response.connections.relatives}</small> </br>
+          <small class="card-text"><strong>Alianzas:</strong>  ${response.connections["group-affiliation"]}</small>
         </div>
       </div>
       </div>
@@ -126,4 +111,23 @@ $(document).ready(function () {
     };
     $("#chartContainer").CanvasJSChart(options);
   }
+
+  //Escuchar evento click en button
+  $("button[type=submit]").on("click", function (event) {
+    event.preventDefault();
+
+    // Capturamos datos usuario y validamos que sea un número
+    let eleccionUsuario;
+    const numberValidator = /\d+/;
+    let numeroValido = numberValidator.test($("input[type=text]").val());
+
+    //Valida si el número ingresado es un número y es mayor a 0
+    if (!numeroValido || $("input[type=text]").val() <= 0 || $("input[type=text]").val() >= 732) {
+      alert("No es un número válido, debe ser mayor a 0 y menor a 732")
+    } else {
+      eleccionUsuario = Number($("input[type=text]").val());
+      consultaAPI(eleccionUsuario);
+    }
+  });
+
 })
